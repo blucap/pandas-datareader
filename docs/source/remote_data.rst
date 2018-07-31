@@ -58,10 +58,18 @@ writing).
 
 .. ipython:: python
 
+    import pandas as pd
     import os
-    import pandas_datareader as pdr
-
-    df = pdr.get_data_tiingo('GOOG', api_key=os.getenv('TIINGO_API_KEY'))
+    pd.core.common.is_list_like = pd.api.types.is_list_like # to fix a pdr v0.6.0 problem
+    import pandas_datareader.data as pdr
+    from datetime import datetime
+    os.environ["TIINGO_API_KEY"] = "my_api_key_obtained_via_api.tiingo.com/account/token"
+    
+    start = datetime(2016, 1, 1)
+    end   = datetime(2018, 1, 1)
+    
+    df = pdr.get_data_tiingo('GOOG', start=start, end=end, api_key=os.getenv('TIINGO_API_KEY'))
+    
     df.head()
 
 .. _remote_data.morningstar:
